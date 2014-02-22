@@ -16,3 +16,18 @@
 *.exe
 *.out
 *.app
+
+# IDE Specific files
+Makefile
+makedep.mk
+*.atsln
+*.atsuo
+*.cproj
+
+# Crossbuild artifacts
+*.d
+*.eep
+*.elf
+*.hex
+*.lss
+*.map
