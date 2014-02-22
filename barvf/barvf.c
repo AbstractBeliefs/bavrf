@@ -5,8 +5,8 @@
  *  Author: Gareth Pulham
  */ 
 
-#define F_CPU 16000000
-#define BAUD 9600
+#define F_CPU   16000000
+#define BAUD    9600
 #include <util/setbaud.h>
 
 #include <avr/io.h>
@@ -14,7 +14,8 @@
 #include <stdio.h>
 
 // Prepare memory and memory pointer
-unsigned char memory[1024];
+#define MEM_SIZE    1024
+unsigned char memory[MEM_SIZE];
 unsigned char* memptr = memory;
 
 // Prepare program space and program counter
@@ -34,8 +35,8 @@ static FILE mystdinout = FDEV_SETUP_STREAM(uart_putstring, uart_getchar, _FDEV_S
 int main(){
     init_uart();
     
-    pc = program;               // point the pc at the first instruction
-    memset(memory, 0, 1024);    // Initialise all memory to 0
+    pc = program;                   // point the pc at the first instruction
+    memset(memory, 0, MEM_SIZE);    // Initialise all memory to 0
     
     while (*pc){
         switch(*pc){
