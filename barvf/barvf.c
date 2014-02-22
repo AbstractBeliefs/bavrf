@@ -5,23 +5,35 @@
  *  Author: Gareth Pulham
  */ 
 
+#define F_CPU 16000000
+#define BAUD 9600
+#include <util/setbaud.h>
 
 #include <avr/io.h>
 #include <string.h>
+#include <stdio.h>
 
 // Prepare memory and memory pointer
 unsigned char memory[1024];
 unsigned char* memptr = memory;
 
 // Prepare program space and program counter
-char* program = "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.";
+char* program = ",[.[-],]";
 char* pc;
 
 // Interpreter parsing vars for loops
 int depthLevel = 0;
 int matchLevel = 0;
 
+void init_uart(void);                           // uart init
+void uart_putchar(uint8_t data);                // uart tx
+char uart_getchar(void);                        // uart rx
+int uart_putstring(char var, FILE *stream);     // uart string io
+static FILE mystdinout = FDEV_SETUP_STREAM(uart_putstring, uart_getchar, _FDEV_SETUP_RW);
+
 int main(){
+    init_uart();
+    
     pc = program;               // point the pc at the first instruction
     memset(memory, 0, 1024);    // Initialise all memory to 0
     
@@ -40,8 +52,10 @@ int main(){
                 (*memptr)--;
                 break;
             case '.':       // print char
-                break;      // TODO: serial
+                putchar(*memptr);
+                break;
             case ',':       // get char
+                *memptr = getchar();
                 break;
             case '[':       // Looping operator
                 // If the current data cell is 0, we skip over the block
@@ -82,4 +96,26 @@ int main(){
         pc++;
     }
     for(;;){}
+}
+
+void init_uart(void){
+    UCSR0B |= _BV(TXEN0) | _BV(RXEN0);  // Enable RX/TX
+    UBRR0 = UBRR_VALUE;                 // Set baud rate
+    stdout = &mystdinout;       // Connect stdin/stdout
+    stdin = &mystdinout;
+}
+void uart_putchar(uint8_t data){
+    loop_until_bit_is_set(UCSR0A, UDRE0);   // Wait until output is clear
+    UDR0 = data;                            // load data register with data
+}
+int uart_putstring(char var, FILE *stream) {
+    if (var == '\n'){
+        uart_putchar('\r');
+    }        
+    uart_putchar(var);
+    return 0;
+}
+char uart_getchar(){
+    loop_until_bit_is_set(UCSR0A, RXC0);
+    return UDR0;
 }
