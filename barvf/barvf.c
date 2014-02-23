@@ -19,7 +19,17 @@ unsigned char memory[MEM_SIZE];
 unsigned char* memptr = memory;
 
 // Prepare program space and program counter
-char* program = ",[.[-],]";
+char* program =
+">+++++++++++[<++++++++>-]<-.>++++[<++++>-]<+.-------.>+++++"
+"[<++++>-]<-.[-]>++++++++[<++++>-]<.>+++++++++[<++++++++>-]<"
+"+.++++++++++.[-]>++++++++[<++++>-]<.>+++++++++++[<++++++++>"
+"-]<+.----------.++++++.---.[-]>++++++++[<++++>-]<.>++++++++"
+"+++++[<++++++>-]<.-------------.++++++++++++.--------.>++++"
+"++[<------>-]<--.[-]+++++++++++++.---.[-]+[>,-------------]"
+">+++++++++[<++++++++>-]<.>+++++++[<++++>-]<+.+++++++..+++.["
+"-]>++++++++[<++++>-]<.[-]<-[<-]>[++++++++++++++.>]+++++++++"
+"+.";
+
 char* pc;
 
 // Interpreter parsing vars for loops
@@ -38,6 +48,7 @@ int main(){
     pc = program;                   // point the pc at the first instruction
     memset(memory, 0, MEM_SIZE);    // Initialise all memory to 0
     
+    printf("[BAVRF] Program begins.\n");
     while (*pc){
         switch(*pc){
             case '>':       // Move the memory pointer 1 right
@@ -96,6 +107,7 @@ int main(){
         }
         pc++;
     }
+    printf("[BAVRF] Program ends.");
     for(;;){}
 }
 
