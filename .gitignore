@@ -1,6 +1,7 @@
 # Object files
 *.o
 *.ko
+*.pyc
 
 # Libraries
 *.lib
@@ -31,3 +32,7 @@ makedep.mk
 *.hex
 *.lss
 *.map
+
+# Other
+*.bf
+*.S
