@@ -24,6 +24,7 @@ makedep.mk
 *.atsln
 *.atsuo
 *.cproj
+*.swp
 
 # Crossbuild artifacts
 *.d
@@ -35,4 +36,3 @@ makedep.mk
 
 # Other
 *.bf
-*.S
