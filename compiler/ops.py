@@ -3,6 +3,13 @@ class Operation(object):
         raise NotImplementedError
 
 
+class Label(Operation):
+    def __init__(self, name):
+        self.name = name
+
+    def emit(self):
+        return "%s:\n" % self.name
+
 class RegMath(Operation):
     """Useful as an optimisation target"""
     def __init__(self, value):
@@ -60,22 +67,23 @@ class Navigate(RegMath):
 
 class Loop(Operation):
     """Manage looped operation segments"""
-    def __init__(self, name, operations):
-        self.name = name
+    def __init__(self, labeller, operations):
+        self.start = labeller.next()
+        self.end = Label(self.start.name+"end")
         self.operations = operations
 
     def emit(self):
-        prologue = "%s:\n"\
-                   "    CPSE   r16, r0\n"\
-                   "    RJMP   %s_end\n" %(self.name, self.name)
-        epilogue = "    RJMP   %s\n"\
-                   "%s_end:\n" %(self.name, self.name)
+        prologue =  self.start.emit()
+        prologue += "    CPSE   r16, r0\n"\
+                    "    RJMP   %s\n" % self.end.name
+        epilogue =  "    RJMP   %s\n" % self.start.name
+        epilogue += self.end.emit()
         body = [op.emit() for op in self.operations]
 
         return "".join([prologue]+body+[epilogue])
 
     def __repr__(self):
-        return "NAV (%s)[%s]" % (self.name, "".join(repr(op) for op in self.operations))
+        return "NAV (%s)[%s]" % (self.start.name, "".join(repr(op) for op in self.operations))
 
 
 class Communicate(Operation):
