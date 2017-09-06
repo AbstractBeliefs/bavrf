@@ -1,4 +1,5 @@
 #include "program_sequence.h"
+#include "program_optimise.h"
 
 #include "bf.parse.h"
 #include "bf.lex.h"
@@ -25,12 +26,26 @@ node* get_program_sequence(char* source){
     return sequence;
 }
 
+node* optimise_program_sequence(node* sequence){
+    for (node* (**optimisation)(node*) = optimisations; *optimisation != NULL; optimisation++){
+        sequence = (*optimisation)(sequence);
+    }
+    return sequence;
+}
+
 int main(){
-    char* test="+++[---]";
+    char* test="+++[--[-]]..,,[]";
 
     node* sequence = get_program_sequence(test);
 
+    puts("+ Original source:");
     puts(test);
+
+    puts("\n+ Compiling");
+    displaySequence(sequence);
+
+    puts("\n+ Optimising");
+    sequence = optimise_program_sequence(sequence);
     displaySequence(sequence);
 
     return 0;

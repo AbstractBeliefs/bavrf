@@ -63,7 +63,7 @@ void displaySequenceDepth(node* sequence, int depth){
         switch (sequence->type){
             case ARITHMETIC: printf("Got arithmetic: %d\n", sequence->value); break;
             case NAVIGATION: printf("Got navigation: %s\n", sequence->direction ? "right" : "left"); break;
-            case LOOP: displaySequenceDepth(sequence->sub, depth+1); break;
+            case LOOP: puts("Entered loop"); displaySequenceDepth(sequence->sub, depth+1); break;
             case IO: printf("Got IO: %s\n", sequence->direction ? "out" : "in"); break;
         }
         sequence = sequence->next;
