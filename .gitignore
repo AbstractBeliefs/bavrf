@@ -34,5 +34,10 @@ makedep.mk
 *.lss
 *.map
 
+# Parser generated files
+*.parse.*
+*.lex.*
+
 # Other
 *.bf
+compile
