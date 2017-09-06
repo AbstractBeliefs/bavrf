@@ -43,13 +43,18 @@ typedef void* yyscan_t;
 %token TOKEN_IN
 %token TOKEN_OUT
 
-%type <sequence> bf
+%type <sequence> bf seq
+%type <sequence> program
 
 %%
 
 program
-    : bf[B]         { *sequence = addNode(*sequence, $B); }
-    | program bf[B] { *sequence = addNode(*sequence, $B); }
+    : seq { *sequence = $1; }
+    ;
+
+seq
+    : bf[B]     { $$ = addNode(NULL, $B); }
+    | seq bf[B] { $$ = addNode($$, $B); }
     ;
 
 bf
@@ -57,8 +62,8 @@ bf
     | TOKEN_SUB                                     { $$ = createArithmetic(-1); }
     | TOKEN_LEFT                                    { $$ = createNavigation(false); }
     | TOKEN_RIGHT                                   { $$ = createNavigation(true); }
-    | TOKEN_LOOPSTART TOKEN_LOOPEND                 { }
-    | TOKEN_LOOPSTART program[P] TOKEN_LOOPEND      { }
+    | TOKEN_LOOPSTART TOKEN_LOOPEND                 { $$ = createLoop(NULL); }
+    | TOKEN_LOOPSTART program[P] TOKEN_LOOPEND      { $$ = createLoop($P); }
     | TOKEN_IN                                      { $$ = createIO(false); }
     | TOKEN_OUT                                     { $$ = createIO(true); }
     ;

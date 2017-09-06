@@ -26,7 +26,7 @@ node* get_program_sequence(char* source){
 }
 
 int main(){
-    char* test="+- <> [] .,";
+    char* test="+++[---]";
 
     node* sequence = get_program_sequence(test);
 

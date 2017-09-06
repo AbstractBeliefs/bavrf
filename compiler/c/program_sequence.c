@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 
 #include "program_sequence.h"
@@ -23,7 +24,7 @@ node* createLoop(node* sequence){
     node* program_node = malloc(sizeof(node));
     program_node->next = NULL;
     program_node->type = LOOP;
-    program_node->sub = NULL;
+    program_node->sub = sequence;
     return program_node;
 }
 
@@ -52,14 +53,26 @@ node* addNode(node* sequence, node* newNode){
     return sequence;
 }
 
-void displaySequence(node* sequence){
+void displaySequenceDepth(node* sequence, int depth){
+    char* prefix = malloc(sizeof(char) * depth * 4 + 1);
+    memset(prefix, ' ', sizeof(char) * depth * 4);
+    prefix[depth*4] = '\0';
+
     while (sequence){
+        printf("%s", prefix);
         switch (sequence->type){
             case ARITHMETIC: printf("Got arithmetic: %d\n", sequence->value); break;
             case NAVIGATION: printf("Got navigation: %s\n", sequence->direction ? "right" : "left"); break;
-            case LOOP: printf("Got loop\n"); break;
+            case LOOP: displaySequenceDepth(sequence->sub, depth+1); break;
             case IO: printf("Got IO: %s\n", sequence->direction ? "out" : "in"); break;
         }
         sequence = sequence->next;
     }
+    free(prefix);
+    return;
+}
+
+void displaySequence(node* sequence){
+    displaySequenceDepth(sequence, 0);
+    return;
 }
