@@ -15,8 +15,8 @@ typedef struct node {
 
     nodetype type;
     union {
-        int value;          // For arithmetic
-        bool direction;     // For IO/memory navigation
+        int value;          // For arithmetic/memory navigation
+        bool direction;     // For IO
         struct node* sub;   // For loops
     };
 } node;
@@ -26,7 +26,7 @@ void deleteNode(node* target);
 void displaySequence(node* sequence);
 
 node* createArithmetic(int value);
-node* createNavigation(bool direction);
+node* createNavigation(int value);
 node* createLoop(node* sequence);
 node* createIO(bool direction);
 

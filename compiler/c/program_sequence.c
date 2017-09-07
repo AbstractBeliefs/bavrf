@@ -12,11 +12,11 @@ node* createArithmetic(int value){
     return program_node;
 }
 
-node* createNavigation(bool direction){
+node* createNavigation(int value){
     node* program_node = malloc(sizeof(node));
     program_node->next = NULL;
     program_node->type = NAVIGATION;
-    program_node->direction = direction;
+    program_node->value = value;
     return program_node;
 }
 
@@ -62,7 +62,7 @@ void displaySequenceDepth(node* sequence, int depth){
         printf("%s", prefix);
         switch (sequence->type){
             case ARITHMETIC: printf("Got arithmetic: %d\n", sequence->value); break;
-            case NAVIGATION: printf("Got navigation: %s\n", sequence->direction ? "right" : "left"); break;
+            case NAVIGATION: printf("Got navigation: %d\n", sequence->value); break;
             case LOOP: puts("Entered loop"); displaySequenceDepth(sequence->sub, depth+1); break;
             case IO: printf("Got IO: %s\n", sequence->direction ? "out" : "in"); break;
         }

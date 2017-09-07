@@ -60,8 +60,8 @@ seq
 bf
     : TOKEN_ADD                                     { $$ = createArithmetic(1); }
     | TOKEN_SUB                                     { $$ = createArithmetic(-1); }
-    | TOKEN_LEFT                                    { $$ = createNavigation(false); }
-    | TOKEN_RIGHT                                   { $$ = createNavigation(true); }
+    | TOKEN_LEFT                                    { $$ = createNavigation(-1); }
+    | TOKEN_RIGHT                                   { $$ = createNavigation(1); }
     | TOKEN_LOOPSTART TOKEN_LOOPEND                 { $$ = createLoop(NULL); }
     | TOKEN_LOOPSTART program[P] TOKEN_LOOPEND      { $$ = createLoop($P); }
     | TOKEN_IN                                      { $$ = createIO(false); }

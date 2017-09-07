@@ -21,7 +21,25 @@ node* combine_arithmetic(node* sequence){
     return sequence;
 }
 
+node* combine_navigation(node* sequence){
+    if (!sequence){ return sequence; }
+
+    node* currnode = sequence;
+    while (currnode->next){
+        if (currnode->type == NAVIGATION && currnode->next->type == NAVIGATION){
+            currnode->value += currnode->next->value;
+            currnode->next = currnode->next->next;
+        } else if (currnode->type == LOOP){
+            combine_navigation(currnode->sub);
+            currnode = currnode->next;
+        } else {
+            currnode = currnode->next;
+        }
+    }
+    return sequence;
+}
 node* (*optimisations[])(node*) = {
     &combine_arithmetic,
+    &combine_navigation,
     NULL
 };

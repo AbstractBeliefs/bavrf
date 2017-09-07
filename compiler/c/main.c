@@ -34,7 +34,7 @@ node* optimise_program_sequence(node* sequence){
 }
 
 int main(){
-    char* test="+++[--[-]]..,,[]";
+    char* test="+++[--[-]]..,,[]+-+-<<<++>><<";
 
     node* sequence = get_program_sequence(test);
 
