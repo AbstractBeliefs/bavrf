@@ -19,7 +19,6 @@
 *.app
 
 # IDE Specific files
-Makefile
 makedep.mk
 *.atsln
 *.atsuo
