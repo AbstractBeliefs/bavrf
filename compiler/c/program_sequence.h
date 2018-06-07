@@ -23,7 +23,6 @@ typedef struct node {
 
 node* addNode(node* sequence, node* node);
 void deleteNode(node* target);
-void displaySequence(node* sequence);
 
 node* createArithmetic(int value);
 node* createNavigation(int value);

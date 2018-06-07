@@ -1,5 +1,8 @@
+#include <stdio.h>
+
 #include "program_sequence.h"
 #include "program_optimise.h"
+#include "utils.h"
 
 #include "bf.parse.h"
 #include "bf.lex.h"
@@ -38,15 +41,16 @@ int main(){
 
     node* sequence = get_program_sequence(test);
 
-    puts("+ Original source:");
-    puts(test);
+    fprintf(stderr, "+ Original source:\n");
+    fprintf(stderr, "\t%s\n", test);
 
-    puts("\n+ Compiling");
+    fprintf(stderr, "+ Compiling\n");
     displaySequence(sequence);
 
-    puts("\n+ Optimising");
+    fprintf(stderr, "+ Optimising\n");
     sequence = optimise_program_sequence(sequence);
     displaySequence(sequence);
+    writeDot(sequence);
 
     return 0;
 }
