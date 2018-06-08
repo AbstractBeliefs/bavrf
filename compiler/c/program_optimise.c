@@ -7,8 +7,8 @@ node* combine_arithmetic(node* sequence){
     if (!sequence){ return sequence; }
 
     node* currnode = sequence;
-    while (currnode->next){
-        if (currnode->type == ARITHMETIC && currnode->next->type == ARITHMETIC){
+    while (currnode){
+        if (currnode->type == ARITHMETIC && currnode->next && currnode->next->type == ARITHMETIC){
             currnode->value += currnode->next->value;
             currnode->next = currnode->next->next;
         } else if (currnode->type == LOOP){
@@ -25,8 +25,8 @@ node* combine_navigation(node* sequence){
     if (!sequence){ return sequence; }
 
     node* currnode = sequence;
-    while (currnode->next){
-        if (currnode->type == NAVIGATION && currnode->next->type == NAVIGATION){
+    while (currnode){
+        if (currnode->type == NAVIGATION && currnode->next && currnode->next->type == NAVIGATION){
             currnode->value += currnode->next->value;
             currnode->next = currnode->next->next;
         } else if (currnode->type == LOOP){
